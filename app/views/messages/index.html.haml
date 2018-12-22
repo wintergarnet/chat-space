@@ -1,0 +1,30 @@
+.wrapper
+
+  = render 'shared/side_bar'
+
+  .chat
+    .header
+      .left-header
+        .left-header__title
+          = @group.name
+        %ul.left-header__members
+          Member：
+          %li.member
+            = @group.users.pluck(:name).join(', ')
+      .right-header
+        = link_to edit_group_path(@group) do
+          .edit
+            %p
+              Edit
+
+    .messages
+      = render partial: 'message', collection: @messages
+
+    .form
+      = form_for [@group, @message] do |f|
+        = f.text_field :content, class: 'form__message', placeholder: 'type a message'
+        .form__mask
+          = f.label :image, class: 'form__mask__image' do
+            = fa_icon 'picture-o', class: 'icon'
+            = f.file_field :image, class: 'hidden'
+        = f.submit 'Send', class: 'form__submit'

@@ -1,0 +1,41 @@
+= form_for group do |f|
+  - if group.errors.any?
+    .chat-group-form__errors
+      %h2= "#{group.errors.full_messages.count}件のエラーが発生しました。"
+      / errors.full_messagesメソッドを利用することで、発生した全てのエラーメッセージを配列で取得することができる。
+      %ul
+        - group.errors.full_messages.each do |message|
+          %li= message
+  .chat-group-form__field
+    .chat-group-form__field--left
+      = f.label :name, 'グループ名', class: 'chat-group-form__label'
+    .chat-group-form__field--right
+      = f.text_field :name, class: 'chat__group_name chat-group-form__input', placeholder: 'グループ名を入力してください'
+  .chat-group-form__field.clearfix
+    .chat-group-form__field--left
+      = f.label :name, 'チャットメンバーを追加', class: "chat-group-form__label", id: "chat_group", placeholder: 'チャットメンバーを追加'
+    .chat-group-form__field--right
+      .chat-group-form__search.clearfix
+        %input.chat-group-form__input#user-search-field{ type: 'text', placeholder: '追加したいユーザー名を入力してください' }
+      #user-search-result
+
+  .chat-group-form__field.clearfix
+    .chat-group-form__field--left
+      %label.chat-group-form__label{for: "chat_group_チャットメンバー"} チャットメンバー
+    .chat-group-form__field--right
+      - @group.users.each do |user|
+        #chat-group-users
+          .chat-group-user.clearfix{id: "chat-group-user-#{user.id}"}
+            = f.hidden_field :id, name: "group[user_ids][]", value: "#{user.id}"
+            %p.chat-group-user__name #{user.name}
+            - if current_user.id == user.id
+              %a.user-search-remove.chat-group-user__btn.chat-group-user__btn--remove.js-remove-btn{"data-user-id": "#{user.id}", "data-user-name": "#{user.name}"}
+            - else
+              %a.user-search-remove.chat-group-user__btn.chat-group-user__btn--remove.js-remove-btn{"data-user-id": "#{user.id}", "data-user-name": "#{user.name}"}削除
+
+  .chat-group-form__field.clearfix
+    .chat-group-form__field--left
+    .chat-group-form__field--right
+      = f.submit class: 'chat-group-form__action-btn'
+
+
