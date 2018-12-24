@@ -7,7 +7,7 @@ set :repo_url, "git@github.com:wintergarnet/chat-space.git"
 
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
 
-set :tmp_dir, '~/tmp'
+# set :tmp_dir, '~/tmp'
 
 set :rbenv_type, :user
 set :rbenv_ruby, '2.3.1'
